@@ -123,16 +123,16 @@ REPLACE="
 
 print_modname() {
     ui_print "============================================"
-    ui_print "                 GCC Toolchain              "
+    ui_print "                 Code Server                "
     ui_print "--------------------------------------------"
-    ui_print "   GCC Toolchain is usable to build many    "
-    ui_print " things, such as native modules for Node.js "
+    ui_print "           VS Code in the browser           "
     ui_print "--------------------------------------------"
-    ui_print "   Magisk-Modules-Alt-Repo/gcc-toolchain    "
+    ui_print "         Googlers-Repo/code-server          "
     ui_print "============================================"
 }
 
 MODULES=$(magisk --path)/.magisk/modules
+BASE=$MODPATH/system/usr/share/code-server
 
 require_modules() {
     for module in $@; do
@@ -153,7 +153,7 @@ on_install() {
     unzip -o "$ZIPFILE" 'system/*' -d $MODPATH >&2
 
     # Check if one of conflicting modules is installed
-    require_modules mkshrc
+    require_modules mkshrc node_on_android
 
     # Symbolic link for lowercase/UPPERCASE support in terminal
     [ -d "$MODPATH/system/bin/" ] || mkdir -p "$MODPATH/system/bin/"
@@ -169,16 +169,7 @@ set_permissions() {
     # The following is the default rule, DO NOT remove
     set_perm_recursive $MODPATH 0 0 0755 0644
     
-    base=$MODPATH/system/usr/share/gcc
-    for folder in $base/bin $base/aarch64-linux-android/bin $base/libexec/gcc/aarch64-linux-android/10.2.0;do
-      for bin in $folder/*; do
-        if [ -f $bin ]; then
-          set_perm "$bin" 0 0 0755 0644
-        fi
-      done
-    done
-    
-    unset base folder bin
+    set_perm "$BASE/bin/code-server" 0 0 0755 0644
     
     # Here are some examples:
     # set_perm_recursive  $MODPATH/system/lib       0     0       0755      0644
