@@ -1,0 +1,6 @@
+id=code_server
+name=Code Server
+version=1.0.0
+versionCode=100
+author=coder, vhqtvn & Der_Googler
+description=VS Code in the browser
