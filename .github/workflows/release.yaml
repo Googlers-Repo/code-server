@@ -1,45 +1,27 @@
 name: release
 
 on:
-
   push:
-
     tags: [ v*.*.* ]
 
 jobs:
-
   deploy:
-
     name: Deploy
-
     runs-on: ubuntu-latest
-
     steps:
-
       - uses: actions/checkout@v2
 
-      - name: Build
-
-        
-
+      - name: Build     
         run: |
-
-          zip -r "code-server-${{ steps.get_version.outputs.version }}.zip" .
-
+          zip -r "code-server-release.zip" -x ".git" "README.md" ".github" .
       - id: get_version
-
         uses: battila7/get-version-action@v2
 
       - name: Publish
-
         uses: softprops/action-gh-release@v1
-
         with:
-
             files: 'code-server*'
-
             draft: true
 
         env:
-
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
