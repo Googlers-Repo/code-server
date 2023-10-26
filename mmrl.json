@@ -1,0 +1,14 @@
+{
+    "logo": "https://avatars.githubusercontent.com/u/95932066?s=200&v=4",
+    "cover": "https://coder.com/og-image.png",
+    "screenshots": [
+        "https://raw.githubusercontent.com/coder/code-server/main/docs/assets/screenshot-1.png",
+        "https://raw.githubusercontent.com/coder/code-server/main/docs/assets/screenshot-2.png"
+    ],
+    "categories": [
+        "Tools",
+        "Customization",
+        "Miscellaneous"
+    ],
+    "require": ["mkshrc", "node_on_android"]
+}
