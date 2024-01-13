@@ -5,3 +5,5 @@ versionCode=100
 author=coder, vhqtvn & Der_Googler
 description=VS Code in the browser
 mmrlAuthor=FGPqXIzgATOwXrThZ7duE3AJnet2
+
+noIndex=true
