@@ -1,27 +1,29 @@
-name: release
+name: Build Magisk/KernelSU Module
 
 on:
   push:
     tags: [ v*.*.* ]
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build Module
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build     
+      - name: Setup Apt Dependencies
         run: |
-          zip -r "code-server-release.zip" -x ".git" "README.md" ".github" .
-      - id: get_version
-        uses: battila7/get-version-action@v2
+          sudo apt update -y && sudo apt upgrade -y
+          sudo apt install zip unzip -y
 
+      - name: Make
+        shell: bash
+        run: |
+          zip -r "module.zip" * -x ".git" -x "README.md"
+          
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-            files: 'code-server*'
-            draft: true
-
+            files: 'module.zip'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
