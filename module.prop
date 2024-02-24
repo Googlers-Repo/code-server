@@ -1,6 +1,6 @@
 id=code_server
 name=Code Server
-version=1.2.5
-versionCode=125
+version=2.0.0
+versionCode=200
 author=coder, vhqtvn & Der_Googler
 description=VS Code in the browser

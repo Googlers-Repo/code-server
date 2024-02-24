@@ -18,5 +18,5 @@ Magisk or [Fox's Magisk Module Manager][foxm]
 ## Config location
 
 ```
-/data/chuser/<USER>/home/.config
+/data/mkuser/<USER>/home/.config
 ```
