@@ -1,21 +1,16 @@
 import React from "react";
 import { Save } from "@mui/icons-material";
-import {
-  Box,
-  Alert,
-  ListItemButton,
-  ListItemText
-} from "@mui/material";
+import { Box, Alert, ListItemButton, ListItemText } from "@mui/material";
 import { Page, Toolbar } from "@mmrl/ui";
 import { useActivity, useTheme } from "@mmrl/hooks";
-import { write, exist } from "@mmrl/sufile";
+import { read, write, exist } from "@mmrl/sufile";
 
 const cfgPath = "/data/mkuser/root/.config/code-server/config.yaml";
 const cfg = require(cfgPath);
 const hasCfg = exist(cfgPath);
 
-import AuthTypes from "<CONFCWD>/util/AuthTypes.js"
-import SelectDialog from "<CONFCWD>/components/SelectDialog.jsx"
+const AuthTypes = require(confpath("<CONFCWD>/util/authTypes.js"));
+const SelectDialog = require(confpath("components/SelectDialog.jsx"));
 
 function App() {
   const { context } = useActivity();
@@ -43,7 +38,20 @@ function App() {
 
   const renderToolbar = () => {
     return (
-      <Toolbar modifier="noshadow">
+      <Toolbar
+        sx={{
+          ":before": {
+            left: "48px",
+            color: "rgba(255, 255, 255, 0.07)",
+           top: "-55px",
+            content: "'</></>'",
+            position: "absolute",
+            fontSize: "128px",
+          },
+          background: `radial-gradient(125.71% 125.71% at 50% 125.71%, #BD0B00C8 0%, #B16000C8 100%), url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20300%22%3E%3Cfilter%20id%3D%22noiseFilter%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%225%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23noiseFilter%29%22%2F%3E%3C%2Fsvg%3E)`
+        }}
+        modifier="noshadow"
+      >
         <Toolbar.Left>
           <Toolbar.BackButton onClick={context.popPage} />
         </Toolbar.Left>
@@ -68,7 +76,7 @@ function App() {
 
   return (
     <Page renderToolbar={renderToolbar}>
-      <Alert sx={{ m: 1 }} severity="info">
+      <Alert sx={{ m: 1 }} severity="warning">
         Do not forget to save your config!
       </Alert>
 
@@ -110,8 +118,6 @@ function App() {
     </Page>
   );
 }
-
-
 
 export default () => {
   const { context } = useActivity();

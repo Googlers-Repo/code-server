@@ -13,9 +13,11 @@ VS Code in the browser
 
 ## Installation
 
-Magisk or [Fox's Magisk Module Manager][foxm]
+Check releases
 
 ## Config location
+
+Or use MMRL
 
 ```
 /data/mkuser/<USER>/home/.config
