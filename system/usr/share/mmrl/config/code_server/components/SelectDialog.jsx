@@ -8,7 +8,7 @@ import {
     Dialog,
   } from "@mui/material";
 
-import AuthTypes from "<CONFCWD>/util/authTypes.js"
+const AuthTypes = include("util/authTypes.js")
 
 function SelectDialog(props) {
   const { onClose, selectedValue, open } = props;
