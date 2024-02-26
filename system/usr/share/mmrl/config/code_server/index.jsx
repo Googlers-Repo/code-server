@@ -1,40 +1,15 @@
 import React from "react";
-import { Save } from "@mui/icons-material";
-import { Box, Alert, ListItemButton, ListItemText } from "@mui/material";
+import { ListItemButton, ListItemText } from "@mui/material";
 import { Page, Toolbar } from "@mmrl/ui";
-import { useActivity, useTheme } from "@mmrl/hooks";
-import { read, write, exist } from "@mmrl/sufile";
+import { useActivity, useConfig } from "@mmrl/hooks";
+import { ConfigProvider } from "@mmrl/providers";
 
-const cfgPath = "/data/mkuser/root/.config/code-server/config.yaml";
-const cfg = require(cfgPath);
-const hasCfg = exist(cfgPath);
-
-const AuthTypes = require(confpath("<CONFCWD>/util/authTypes.js"));
-const SelectDialog = require(confpath("components/SelectDialog.jsx"));
+const AuthTypes = include("util/authTypes.js");
+const SelectDialog = include("components/SelectDialog.jsx");
 
 function App() {
   const { context } = useActivity();
-
-  const [bindAddr, setBindAddr] = React.useState(cfg["bind-addr"]);
-  const [auth, setAuth] = React.useState(cfg["auth"]);
-  const [password, setPassword] = React.useState(cfg["password"]);
-  const [cert, setCert] = React.useState(cfg["cert"]);
-
-  const saveConfig = React.useCallback(() => {
-    write(
-      cfgPath,
-      YAML.stringify(
-        {
-          "bind-addr": bindAddr,
-          auth: auth,
-          password: password,
-          cert: cert,
-        },
-        null,
-        4
-      )
-    );
-  }, [bindAddr, auth, password, cert]);
+  const { config, setConfig } = useConfig()
 
   const renderToolbar = () => {
     return (
@@ -43,7 +18,7 @@ function App() {
           ":before": {
             left: "48px",
             color: "rgba(255, 255, 255, 0.07)",
-           top: "-55px",
+            top: "-55px",
             content: "'</></>'",
             position: "absolute",
             fontSize: "128px",
@@ -56,9 +31,6 @@ function App() {
           <Toolbar.BackButton onClick={context.popPage} />
         </Toolbar.Left>
         <Toolbar.Center>Code Server</Toolbar.Center>
-        <Toolbar.Right>
-          <Toolbar.Button onClick={saveConfig} icon={Save} />
-        </Toolbar.Right>
       </Toolbar>
     );
   };
@@ -71,48 +43,44 @@ function App() {
 
   const handleClose = (value) => {
     setOpen(false);
-    setAuth(value);
+    setConfig("auth", value);
   };
 
   return (
     <Page renderToolbar={renderToolbar}>
-      <Alert sx={{ m: 1 }} severity="warning">
-        Do not forget to save your config!
-      </Alert>
-
       <List subheader={<ListSubheader>Settings</ListSubheader>}>
         <ListItemDialogEditText
           onSuccess={(val) => {
-            if (val) setBindAddr(val);
+            if (val) setConfig("bind-addr", val);
           }}
           inputLabel="Address"
           type="text"
           title="Change address"
-          initialValue={bindAddr}
+          initialValue={config["bind-addr"]}
         >
-          <ListItemText primary="Change address" secondary={bindAddr} />
+          <ListItemText primary="Change address" secondary={config["bind-addr"]} />
         </ListItemDialogEditText>
 
         <ListItemButton onClick={handleClickOpen}>
-          <ListItemText primary="Change auth type" secondary={auth} />
+          <ListItemText primary="Change auth type" secondary={config["auth"]} />
         </ListItemButton>
 
-        <SelectDialog selectedValue={auth} open={open} onClose={handleClose} />
+        <SelectDialog selectedValue={config["auth"]} open={open} onClose={handleClose} />
 
         <ListItemDialogEditText
           onSuccess={(val) => {
-            if (val) setPassword(val);
+            if (val) setConfig("password", val);
           }}
           inputLabel="Password"
           type="text"
           title="Change password"
-          initialValue={password}
+          initialValue={config["password"]}
         >
-          <ListItemText primary="Change password" secondary={password} />
+          <ListItemText primary="Change password" secondary={config["password"]} />
         </ListItemDialogEditText>
         <ListItem>
           <ListItemText primary="Certificate" />
-          <Switch checked={cert} onChange={(e) => setCert(e.target.checked)} />
+          <Switch checked={config["cert"]} onChange={(e) => setConfig("cert", e.target.checked)} />
         </ListItem>
       </List>
     </Page>
@@ -120,37 +88,14 @@ function App() {
 }
 
 export default () => {
-  const { context } = useActivity();
-  const { theme } = useTheme();
-
-  if (hasCfg) {
-    return <App />;
-  } else {
-    return (
-      <Page
-        renderToolbar={() => (
-          <Toolbar modifier="noshadow">
-            <Toolbar.Left>
-              <Toolbar.BackButton onClick={context.popPage} />
-            </Toolbar.Left>
-            <Toolbar.Center>Code Server</Toolbar.Center>
-          </Toolbar>
-        )}
-      >
-        <Box
-          component="h4"
-          sx={{
-            color: theme.palette.text.secondary,
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            WebkitTransform: "translate(-50%, -50%)",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          Config file was not found.
-        </Box>
-      </Page>
-    );
-  }
+  return (
+    <ConfigProvider loadFromFile="/data/mkuser/root/.config/code-server/config.yaml" initialConfig={{
+      "bind-addr": "0.0.0.0:8989",
+      auth: "password",
+      password: "Waffenfähiges Plutonium",
+      cert: false,
+    }} loader="yaml">
+      <App />
+    </ConfigProvider>
+  );
 };
