@@ -5,7 +5,7 @@ import { withRequireNewVersion } from "@mmrl/hoc";
 import { ConfigProvider } from "@mmrl/providers";
 import { useActivity, useConfig } from "@mmrl/hooks";
 
-const SelectDialog = include("components/SelectDialog.jsx");
+import SelectDialog from "components/SelectDialog"
 
 function App() {
   const { context } = useActivity();
