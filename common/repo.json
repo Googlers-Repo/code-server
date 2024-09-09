@@ -1,0 +1,20 @@
+{
+    "license": "",
+    "support": "https://github.com/Googlers-Repo/code-server/issues",
+    "donate": "",
+    "cover": "https://pbs.twimg.com/profile_banners/851224134075817984/1717433657/1500x500",
+    "icon": "https://pbs.twimg.com/profile_images/1534348520148418561/aij4h_0U_400x400.png",
+    "categories": [
+        "Miscellaneous",
+        "System"
+    ],
+    "require": [
+        "node_on_android",
+        "mkshrc"
+    ],
+    "screenshots": [
+        "https://coder.com/_next/image?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcoder%2Fcode-server%2Fmain%2Fdocs%2Fassets%2Fscreenshot-1.png&w=1920&q=100",
+        "https://coder.com/_next/image?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcoder%2Fcode-server%2Fmain%2Fdocs%2Fassets%2Fscreenshot-2.png&w=1920&q=100"
+    ],
+    "readme": "https://raw.githubusercontent.com/Googlers-Repo/code-server/master/README.md"
+}
